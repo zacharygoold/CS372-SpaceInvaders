@@ -1,0 +1,57 @@
+import javax.swing.JApplet;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import javax.swing.*;
+
+
+public class SpaceInvaders extends JFrame implements Runnable, KeyListener{
+	public void init(){
+		addKeyListener(this); //same class as keyboard input
+		
+		new Thread(this).start(); //allows to run while it is running
+	}
+	@Override
+	public void paint(Graphics graphics){
+		BufferedImage background = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR); //setting up background as bufferedImage
+		Graphics g = background.getGraphics();
+		g.setColor(Color.BLACK); //sets color as black
+		g.fillRect(0, 0, getWidth(), getHeight()); // fills entire screen
+		
+		graphics.drawImage(background, 0, 0, null); //draws the image
+	}
+	@Override 
+	public void keyPressed(KeyEvent k){
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent k){
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent k){
+		
+	}
+	
+	public void update(double d){ //seconds
+		
+	}
+	
+	@Override
+	public void run(){ //our runnable
+		long time = System.nanoTime();
+		while(true){
+			try{
+				Thread.sleep(50);
+			}	catch(Exception e){;}
+			double d = (System.nanoTime() - time) * 1E-9;
+			time = System.nanoTime();
+			update(d); //updates the time
+			
+			repaint(); //repaints the stuff on the screen
+		}
+	}
+	
+}

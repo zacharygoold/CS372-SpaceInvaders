@@ -1,0 +1,35 @@
+import java.awt.Color;
+import java.awt.Graphics;
+
+public class Player {
+	private double x, maxX, y; //position of player and where the boundaries are
+	public static double speed = 60; //how fast the player moves
+	public static int width = 40, height = 30; //width and height of the player
+	
+	public Player(double x, double y, double maxX){ //constructor
+		this.x = x;
+		this.y = y;
+		this.maxX = maxX;
+	}
+	
+	public void moveRight(double d){
+		x += d*speed;
+		if(x > maxX){ //stops it from going past on the right
+			x = maxX;
+		}
+	}
+	
+	public void moveLeft(double d){
+		x -= d*speed;
+		if (x < 0){ //stops it from going past on the left
+			x = 0;
+		}
+	}
+	
+	public void draw(Graphics g){
+		g.setColor(Color.GREEN);
+		g.fillRect((int)x-width/2, (int)y-height/2, width, height);
+	}
+	
+	
+}

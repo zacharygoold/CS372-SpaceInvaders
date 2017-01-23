@@ -1,0 +1,49 @@
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Game extends JPanel{
+	
+	JFrame jframe;
+	
+	//ticker to update player, and other elements (about 60 times a sec)
+	static double time = 1000000000/60;
+	boolean running = false;
+	
+	public Game(){
+		//jframe for displaying the game window
+		jframe = new JFrame("Space Invaders - Zach Goold");
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jframe.setSize(750, 550);
+		jframe.setVisible(true);
+		setSize(750, 550);
+		jframe.add(this);
+		setFocusable(true);
+		setVisible(true);
+		
+		run();
+		
+	}
+	
+	//tried to replace with threads... wasn't able to get that to work
+	private void run() {
+		long lastTime = System.nanoTime();
+		double increments = 0;
+		
+		//if running check to see if it is the time that we want
+		while(running){
+			long now = System.nanoTime();
+			increments += (now-lastTime);
+			lastTime = now;
+			if(increments >= time){
+				increments = 0;
+			}
+			
+		}
+		
+	}
+
+
+	public static void main(String[] args) {
+		new Game();
+	}
+}

@@ -1,0 +1,23 @@
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Game extends JPanel{
+	
+	JFrame jframe;
+	
+	public Game(){
+		jframe = new JFrame("Space Invaders - Zach Goold");
+		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jframe.setSize(750, 550);
+		jframe.setVisible(true);
+		setSize(750, 550);
+		jframe.add(this);
+		setFocusable(true);
+		setVisible(true);
+	}
+	
+	
+	public static void main(String[] args) {
+		new Game();
+	}
+}
