@@ -6,10 +6,10 @@
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
-<intAttribute key="org.eclipse.jdt.launching.APPLET_HEIGHT" value="400"/>
+<intAttribute key="org.eclipse.jdt.launching.APPLET_HEIGHT" value="600"/>
 <stringAttribute key="org.eclipse.jdt.launching.APPLET_NAME" value=""/>
 <mapAttribute key="org.eclipse.jdt.launching.APPLET_PARAMETERS"/>
-<intAttribute key="org.eclipse.jdt.launching.APPLET_WIDTH" value="400"/>
+<intAttribute key="org.eclipse.jdt.launching.APPLET_WIDTH" value="600"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="SpaceInvaders"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Final Project"/>
 </launchConfiguration>

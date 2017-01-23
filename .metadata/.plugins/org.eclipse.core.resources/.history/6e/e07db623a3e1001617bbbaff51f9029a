@@ -5,8 +5,7 @@ import java.awt.image.*;
 import java.util.Vector;
 
 
-@SuppressWarnings("serial")
-public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //used an JApplet because I was going to try and put it on a webpage
+public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //use applet because it is a simple UI design
 	
 	public static void main(String[] args){
 		
@@ -83,7 +82,7 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 		while(true){ //always runs
 			try{
 				Thread.sleep(50);
-			}catch(Exception e){System.out.println("Ut Oh.");}
+			}catch(Throwable t){;}
 			double d = (System.nanoTime() - time) * 1E-9;
 			time = System.nanoTime();
 			update(d); //updates the time
