@@ -1,5 +1,10 @@
 import java.awt.*;
-
+/**
+ * This class Bullet represents the bullet for the aliens and ship alike. 
+ * 
+ * @author zgoold17
+ *
+ */
 public class Bullet {
 	public static int speed = 150; // how fast the bullet moves
 	private double x, y; //location
@@ -11,7 +16,10 @@ public class Bullet {
 		this.up = up;
 		
 	}
-	
+	/**
+	 * This updates the speed of the bullet
+	 * @param d
+	 */
 	public void update(double d){
 		if (up == true){
 			y-=d*speed;
@@ -20,8 +28,12 @@ public class Bullet {
 		}
 	}
 	
+	/**
+	 * This draws a line that is orange to represent the bullet
+	 * @param g
+	 */
 	public void draw(Graphics g){
-		g.setColor(Color.BLUE);
+		g.setColor(Color.orange);
 		g.drawLine((int)x, (int)y - 1, (int)x, (int)y+1);
 	}
 	

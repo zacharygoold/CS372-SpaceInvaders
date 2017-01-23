@@ -4,6 +4,12 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.util.Vector;
 
+/**
+ * SpaceInvaders models the creation of the JApplet and draws and creates everything inside of it
+ * Here you make x amount of invaders, one ship, randomly firing bullets, and ship firing bullets
+ * @author zgoold17
+ *
+ */
 
 @SuppressWarnings("serial")
 public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //used an JApplet because I was going to try and put it on a webpage
@@ -17,11 +23,15 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 	private Vector<Alien> aliens; //the aliens
 	private Vector<Bullet> bullets; //the bullets
 	
+	/**
+	 * Initialize the keyboard, set up the player, aliens, ect, tell it to run
+	 */
 	@Override
 	public void init(){
 		addKeyListener(this); //same class as keyboard input
-		
+		setFocusable(true);
 		player = new Player(getWidth()/2, getHeight()-Player.height/2, getWidth()); //sets up player
+		bullets = new Vector<Bullet>(); //our bullets
 		
 		aliens = new Vector<Alien>();
 		for (int i = 0; i <5; i++){
@@ -29,11 +39,11 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 			aliens.add(newAlien);
 		}
 		
-		bullets = new Vector<Bullet>();
-		
 		new Thread(this).start(); //allows to run while it is running
 	}
-	
+	/**
+	 * This is where paint is overrided to draw the background, player, aliens, ect
+	 */
 	@Override
 	public void paint(Graphics graphics){
 		BufferedImage background = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR); //setting up background as bufferedImage
@@ -50,7 +60,9 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 		}
 		graphics.drawImage(background, 0, 0, null); //draws the image
 	}
-	
+	/**
+	 * If the key is pressed the ship will move left and right!
+	 */
 	@Override 
 	public void keyPressed(KeyEvent k){
 		//statement to see if player is going left or right when pressed
@@ -61,7 +73,9 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 			right = true; 
 		}
 	}
-	
+	/**
+	 * If the key is released we don't want the ship to move anymore
+	 */
 	@Override
 	public void keyReleased(KeyEvent k){
 		if (k.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -74,9 +88,12 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 	
 	@Override
 	public void keyTyped(KeyEvent k){
-		
+		//add when space is pressed to shoot
 	}
-	
+	/**
+	 * This is where the infinite loop is, also where time is kept and repaints
+	 * This makes it so all computers runs the program at the same speed as well
+	 */
 	@Override
 	public void run(){ //our runnable
 		long time = System.nanoTime();
@@ -91,7 +108,10 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 			repaint(); //repaints the stuff on the screen
 		}
 	}
-	
+	/**
+	 * The update function for moving aliens and player when TRUE
+	 * @param d
+	 */
 	public void update(double d){ //seconds
 		if(left == true){
 			player.moveLeft(d);
