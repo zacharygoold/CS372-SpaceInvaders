@@ -2,6 +2,7 @@ import javax.swing.JApplet;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.util.Vector;
 
 
 public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //use applet because it is a simple UI design
@@ -12,6 +13,7 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 	
 	private Player player;
 	private boolean left, right; //going left or right
+	private Vector<Alien> aliens;
 	
 	@Override
 	public void init(){
@@ -19,6 +21,11 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 		
 		player = new Player(getWidth()/2, getHeight()-Player.height/2, getWidth()); //sets up player
 		
+		aliens = new Vector<Alien>();
+		for (int i = 0; i <5; i++){
+			Alien newAlien = new Alien(Alien.width*(2*i+2), Alien.height*(2*i+2), getWidth(), false);
+			aliens.add(newAlien);
+		}
 		
 		new Thread(this).start(); //allows to run while it is running
 	}
@@ -30,19 +37,16 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 		g.fillRect(0, 0, getWidth(), getHeight()); // fills entire screen
 		
 		player.draw(g); //draws the player
+		for(int i =0; i < aliens.size(); i++){
+			aliens.get(i).draw(g);
+		}
+		
 		
 		graphics.drawImage(background, 0, 0, null); //draws the image
 	}
 	@Override 
 	public void keyPressed(KeyEvent k){
-		//switch statement to see if player is going left or right when pressed
-		switch(k.getKeyCode()){
-		case KeyEvent.VK_LEFT: left = true; break;
-		case KeyEvent.VK_RIGHT: right = true; break; 
-		}
-		
-		
-		
+		//statement to see if player is going left or right when pressed
 		if (k.getKeyCode() == KeyEvent.VK_LEFT) {
 			left = true; 
 		}
@@ -52,19 +56,12 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 	}
 	@Override
 	public void keyReleased(KeyEvent k){
-		switch(k.getKeyCode()){
-		case KeyEvent.VK_LEFT: left = false; break;
-		case KeyEvent.VK_RIGHT: right = false; break; 
-		}
-		
-		
-		
-		/*if (k.getKeyCode() == KeyEvent.VK_LEFT) {
+		if (k.getKeyCode() == KeyEvent.VK_LEFT) {
 			left = false; 
 		}
 		if (k.getKeyCode() == KeyEvent.VK_RIGHT){
 			right = false; 
-		}*/
+		}
 	}
 	@Override
 	public void keyTyped(KeyEvent k){
@@ -72,16 +69,15 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 	}
 	
 	public void update(double d){ //seconds
-		if(left)
-			player.moveLeft(d);
-		if(right)
-			player.moveRight(d);
-		/*if(left == true){
+		if(left == true){
 			player.moveLeft(d);
 		}
 		if(right == true){
 			player.moveRight(d);
-		}*/
+		}
+		for(int i =0; i < aliens.size(); i++){
+			aliens.get(i).update(d);
+		}
 	}
 	
 	@Override
@@ -90,7 +86,7 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 		while(true){ //always runs
 			try{
 				Thread.sleep(50);
-			}	catch(Throwable t){;}
+			}catch(Throwable t){;}
 			double d = (System.nanoTime() - time) * 1E-9;
 			time = System.nanoTime();
 			update(d); //updates the time
