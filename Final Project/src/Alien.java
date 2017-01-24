@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Vector;
 
 /**
  * The Alien models the alien ships that move in a left to right pattern, shooting, and able to be shot
@@ -7,7 +8,7 @@ import java.awt.*;
  */
 public class Alien {
 	public static int width = 20, height = 20;
-	public static double speedX = 40, speedY = 20, bulletSpeed = .0025; //how fast the alien moves
+	public static double speedX = 40, speedY = 20, bulletSpeed = .0025, speed; //how fast the alien moves
 	private double x, y, maxX, maxY, dx, dy, bullet; //position, max position, and speed
 	
 	/**
@@ -35,12 +36,16 @@ public class Alien {
 	 * Updates the speed of the alien as it moves, checks to see if it hits a wall
 	 * @param d
 	 */
-	public void update(double d){
+	public void update(double d, Vector<Bullet> bullets){
 		x+=dx*d;
 		y+=dy*d;
 		if(x > maxX || x < 0){
 			wall();
 		}
+		if(Math.random() < bullet){
+			bullets.add(new Bullet((int)x, (int)y, false));
+		}
+		bullet *= 1.01;
 	}
 	
 	/**
@@ -53,8 +58,25 @@ public class Alien {
 		if (x < 0){
 			x = 0;
 		}
-
+		dx *= -1.2;
+		dy *= 1.2;
 	}
+	
+	public double getY(){
+		return y;
+	}
+	public double getX(){
+		return x;
+	}
+	
+	public boolean shot(Bullet b){
+		Rectangle container = new Rectangle((int)x-width/2,(int)y-height/2, width, height);
+		if (container.contains(new Point((int)b.getX(), (int)b.getY()))){
+			return true;
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Draws a rectangle that is RED to represent the aliens

@@ -14,14 +14,11 @@ import java.util.Vector;
 @SuppressWarnings("serial")
 public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //used an JApplet because I was going to try and put it on a webpage
 	
-	public static void main(String[] args){
-		
-	}
-	
 	private Player player;
 	private boolean left, right; //going left or right
 	private Vector<Alien> aliens; //the aliens
 	private Vector<Bullet> bullets; //the bullets
+	public static int playing = 0, won = 1, lost =2;
 	
 	/**
 	 * Initialize the keyboard, set up the player, aliens, ect, tell it to run
@@ -34,11 +31,12 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 		bullets = new Vector<Bullet>(); //our bullets
 		
 		aliens = new Vector<Alien>();
-		for (int i = 0; i <5; i++){
-			Alien newAlien = new Alien(Alien.width*(2*i+2), Alien.height*(2*i+2), getWidth(), false);
-			aliens.add(newAlien);
+		for (int i = 0; i < 4; i++){
+			for (int i1 = 0; i1 <5; i1++){
+				Alien newAlien = new Alien(Alien.width*(2*i1+2), Alien.height*(2*i1+2), getWidth(), false);
+				aliens.add(newAlien);
+			}
 		}
-		
 		new Thread(this).start(); //allows to run while it is running
 	}
 	/**
@@ -58,6 +56,13 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 		for(int i = 0; i < bullets.size(); i++){ //draws the bullets
 			bullets.get(i).draw(g);
 		}
+		if (won()==true){ //lets you know if you win or lost
+			g.drawString("You WON!!!!!", getWidth()/2, getHeight()/2);
+		} else if (lose()==true){
+			g.drawString("You LOST :'(", getWidth()/2, getHeight()/2);
+		}
+		
+		
 		graphics.drawImage(background, 0, 0, null); //draws the image
 	}
 	/**
@@ -89,6 +94,9 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 	@Override
 	public void keyTyped(KeyEvent k){
 		//add when space is pressed to shoot
+		if (k.getKeyChar() == ' '){
+			player.shoot(bullets);
+		}
 	}
 	/**
 	 * This is where the infinite loop is, also where time is kept and repaints
@@ -120,8 +128,58 @@ public class SpaceInvaders extends JApplet implements Runnable, KeyListener{ //u
 			player.moveRight(d);
 		}
 		for(int i =0; i < aliens.size(); i++){
-			aliens.get(i).update(d);
+			aliens.get(i).update(d, bullets);
+		}
+		for(int i = 0; i < bullets.size(); i++){
+			bullets.get(i).update(d);
+		}
+		bulletCollision();
+		
+	}
+	/**
+	 * tells you if you killed all the aliens and won
+	 * or if you got hit 4 times and lost, or if aliens reached the end
+	 * @return
+	 */
+	public boolean won(){
+		if (aliens.size()==0){
+			return true;
+		}
+		else{
+			return false;
 		}
 	}
+	public boolean lose(){
+		for (int i = 0; i < aliens.size(); i++){
+			if (aliens.get(i).getY() > getHeight()){
+				return true;
+			}
+		}
+		if ( player.getLives() <= 0){
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * used top: to repeat the statement and check if a bullet collides with an object, aka aliens or player
+	 */
+	public void bulletCollision(){
+	top:for (int i = 0; i < bullets.size(); i++){
+			for(int i2 = 0; i2 < aliens.size(); i2++){
+				if (aliens.get(i2).shot(bullets.get(i)) && bullets.get(i).moving()){
+					bullets.remove(i);
+					aliens.remove(i2);
+					i--;
+					continue top;
+				}
+			}
+			if (player.shot(bullets.get(i)) && !bullets.get(i).moving()){
+				player.hit();
+				bullets.remove(i);
+				i--;
+			}
+		}
+		}
+		
 	
 }
